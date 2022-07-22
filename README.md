@@ -1,4 +1,4 @@
-# Red Dead Nation Companions - A script for RedEM and VORP that allows you to own pets that can retrieve, track/attack targets and more!
+#  Red Dead Nation Companions - A script for RedEM and VORP
 
 ## IMPORTANT: VORP users remember to set your framework in config.lua *and* .fxmanifest.lua
 
