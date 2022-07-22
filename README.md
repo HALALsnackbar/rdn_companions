@@ -11,33 +11,19 @@ With this script players are able to own pets that can retrieve hunted prey, tra
 ## Features
 
 • Purchase pets
-
 • Raise pets by feeding them when they're hungry
-
 • Pets will grow in size as they get older
-
 • Full grown pets gain new abilities
-
 • Give commands like sit and follow
-
 • Pets can retrieve hunted animals (Hunt Mode)
-
 • Pets can be set to track targets
-
 • Pets can be set to attack targets
-
 • Pets will hostile anyone in combat with owner
-
 • Hungry pets won't retrieve
-
 • /callpet to spawn your pet
-
 • /fleepet to make your pet flee
-
 • Optimized - Idles at 0.01ms with pet out	
-
 • Almost everything can be toggled in the config
-
 • Locale config.
     - Currently supports [en]
 
