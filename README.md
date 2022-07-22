@@ -60,4 +60,3 @@ vorp_inventory
 
 ## Disclaimers and Credits
 - This is a heavy modification of [bwrp_animalshelter](https://github.com/nerakhon/bwrp_animalshelter) (Made by nerakhon)]
-- Originally based on HORSE SHOP FOR REDEM 0.1v by #mrlupo# / #Proky# / #Plouffe#
