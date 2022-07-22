@@ -4,6 +4,8 @@
 
 Join the [Red Dead Nations Discord](https://discord.gg/XdqvwMxWYv) for support!
 
+## Description
+
 With this script players are able to own pets that can retrieve hunted prey, track targets or even attack your enemies. Pets need to be raised as well as require food every so often and won't retrieve hunted prey if they are hungry. Pets can be set to automatically hostile targets that attack you as well. Simply look at your pet and hold right-click to access the many different options. Doing the same on other targets will show you their attack/track prompts.
 
 ## Features
