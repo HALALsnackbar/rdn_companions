@@ -1,4 +1,4 @@
-CREATE TABLE `pets` (
+CREATE TABLE `companions` (
   `identifier` varchar(40) NOT NULL,
   `charidentifier` int NOT NULL DEFAULT '0',
   `dog` varchar(255) NOT NULL,
