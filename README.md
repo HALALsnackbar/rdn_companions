@@ -2,7 +2,6 @@
 
 ## IMPORTANT: VORP users remember to set your framework in config.lua *and* .fxmanifest.lua
 
-Join the [Red Dead Nations Discord](https://discord.gg/XdqvwMxWYv) for support!
 
 ## Preview
 https://streamable.com/e4zzz2
