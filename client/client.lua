@@ -533,6 +533,7 @@ RegisterNetEvent('rdn_companions:putaway')
 AddEventHandler('rdn_companions:putaway', function (args)
 	if currentPetPed then
 		DeleteEntity(currentPetPed)
+		currentPetPed = nil
 		ShowNotification(_U('PetAway'))
 	end
 end)
