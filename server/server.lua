@@ -1,4 +1,4 @@
-
+-- Based on Malik's and Blue's animal shelters and vorp animal shelter --
 local data = {}
 local VorpCore = {}
 local VorpInv
@@ -128,7 +128,7 @@ AddEventHandler('rdn_companions:buydog', function (args)
 				end)
 			else
 				local Parameters = { ['identifier'] = u_identifier, ['charidentifier'] = u_charid,  ['dog'] = _model, ['skin'] = skin, ['xp'] = 0 }
-			   MySQL.Sync.execute("INSERT INTO pets ( `identifier`,`charidentifier`,`dog`,`skin`, `xp` ) VALUES ( @identifier,@charidentifier, @dog, @skin, @xp )", Parameters, function(r2)
+			   MySQL.Sync.execute("INSERT INTO companions ( `identifier`,`charidentifier`,`dog`,`skin`, `xp` ) VALUES ( @identifier,@charidentifier, @dog, @skin, @xp )", Parameters, function(r2)
 					user.removeMoney(_price)
 					TriggerClientEvent('rdn_companions:spawndog', _src, _model, skin, true, 0,canTrack)
 					TriggerClientEvent( 'UI:DrawNotification', _src, _U('NewPet') )
@@ -160,7 +160,7 @@ AddEventHandler('rdn_companions:buydog', function (args)
 				end)
 			else
 				local Parameters = { ['identifier'] = u_identifier, ['charidentifier'] = u_charid,  ['dog'] = _model, ['skin'] = skin, ['xp'] = 0 }
-			   exports.ghmattimysql:execute("INSERT INTO pets ( `identifier`,`charidentifier`,`dog`,`skin`, `xp` ) VALUES ( @identifier,@charidentifier, @dog, @skin, @xp )", Parameters, function(r2)
+			   exports.ghmattimysql:execute("INSERT INTO companions ( `identifier`,`charidentifier`,`dog`,`skin`, `xp` ) VALUES ( @identifier,@charidentifier, @dog, @skin, @xp )", Parameters, function(r2)
 					Character.removeCurrency(0, _price)
 					TriggerClientEvent('rdn_companions:spawndog', _src, _model, skin, true, 0,canTrack)
 					TriggerClientEvent( 'UI:DrawNotification', _src, _U('NewPet') )
