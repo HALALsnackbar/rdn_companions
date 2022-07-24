@@ -150,7 +150,7 @@ AddEventHandler('rdn_companions:buydog', function (args)
 			TriggerClientEvent( 'UI:DrawNotification', _src, _U('NoMoney') )
 			return
 		end
-		MySQL.Async.fetchAll("SELECT * FROM companions WHERE identifier = @identifier AND charidentifier = @charidentifier", {['identifier'] = u_identifier, ['charidentifier'] = u_charid}, function(result)
+		exports.ghmattimysql:execute("SELECT * FROM companions WHERE identifier = @identifier AND charidentifier = @charidentifier", {['identifier'] = u_identifier, ['charidentifier'] = u_charid}, function(result)
 			if #result > 0 then 
 				local Parameters = { ['identifier'] = u_identifier, ['charidentifier'] = u_charid,  ['dog'] = _model, ['skin'] = skin , ['xp'] = 0 }
 			   exports.ghmattimysql:execute(" UPDATE companions SET dog = @dog, skin = @skin, xp = @xp WHERE identifier = @identifier AND charidentifier = @charidentifier", Parameters, function(r1)
