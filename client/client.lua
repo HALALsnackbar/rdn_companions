@@ -577,14 +577,13 @@ function RetrieveKill(ClosestPed)
 	local ped = PlayerPedId()
 	local TaskedToMove = false
 	local coords = GetEntityCoords(fetchedObj)
-	TaskGoToCoordAnyMeans(currentPetPed, coords, 1.5, 0, 0, 786603, 0xbf800000)
+	TaskGoToCoordAnyMeans(currentPetPed, coords, 2.0, 0, 0, 786603, 0xbf800000)
 	Retrieving = true
-
+	print('Retrieve Kill')
 	while true do
 	Citizen.Wait(250)
 	local petCoords = GetEntityCoords(currentPetPed)
-	local coords = GetEntityCoords(fetchedObj)
-	TaskGoToCoordAnyMeans(currentPetPed, coords, 1.5, 0, 0, 786603, 0xbf800000)
+	coords = GetEntityCoords(fetchedObj)
 		if GetDistanceBetweenCoords(coords, petCoords, true) <= 2.5 then
 		--AttachEntityToEntity(fetchedObj, currentPetPed, GetPedBoneIndex(currentPetPed, 14285), 0.0, 0.0,0.09798, 0.0, 0.0, 0.0, true, true, false, true, 1, true)
 		AttachEntityToEntity(fetchedObj, currentPetPed, GetPedBoneIndex(currentPetPed, 21030), 0.14,0.14,0.09798, 0.0, 0.0, 0.0, true, true, false, true, 1, true)
@@ -658,13 +657,14 @@ local coords = GetEntityCoords(currentPetPed)
 end
 
 function ReturnKillToPlayer(currentPetPed, PlayerPedId)
-print('return kill')
-		TaskFollowToOffsetOfEntity(currentPetPed, PlayerPedId, 0.0, -1.5, 0.0, 1.0, -1,  1 * 100000000, 1, 1, 0, 0, 1)
+
+	local coords = GetEntityCoords(PlayerPedId)
+		TaskGoToCoordAnyMeans(currentPetPed, coords, 1.5, 0, 0, 786603, 0xbf800000)
 	while true do
 	Citizen.Wait(500)
-	--local coords = GetEntityCoords(PlayerPedId)
-	--local coords2 = GetEntityCoords(currentPetPed)
-	--TaskGoToCoordAnyMeans(currentPetPed, coords, 1.0, 0, 0, 786603, 0xbf800000)
+	coords = GetEntityCoords(PlayerPedId)
+	local coords2 = GetEntityCoords(currentPetPed)
+	--TaskGoToCoordAnyMeans(currentPetPed, coords, 1.5, 0, 0, 786603, 0xbf800000) --this might have been causing the pet to freeze up by calling it so much
 	
 		if GetDistanceBetweenCoords(coords, coords2, true) <= 2.0 then
 		DetachEntity(currentPetPed)
