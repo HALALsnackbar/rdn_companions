@@ -210,6 +210,7 @@ Citizen.CreateThread(function()
 							local model = GetEntityModel(ClosestPed)
 							  for k,v in pairs(Config.Animals) do
 								  if model == k then
+
 								  RetrieveKill(ClosestPed)
 								  end
 							  end
@@ -224,6 +225,8 @@ Citizen.CreateThread(function()
 							local model = GetEntityModel(ClosestPed)
 							  for k,v in pairs(Config.Animals) do
 								  if model == k then
+								  local whoKilledMe = GetPedSourceOfDeath(ClosestPed)
+								  print(whoKilledMe)
 								  RetrieveKill(ClosestPed)
 								  end
 							  end
@@ -655,12 +658,13 @@ local coords = GetEntityCoords(currentPetPed)
 end
 
 function ReturnKillToPlayer(currentPetPed, PlayerPedId)
-		
+print('return kill')
+		TaskFollowToOffsetOfEntity(currentPetPed, PlayerPedId, 0.0, -1.5, 0.0, 1.0, -1,  1 * 100000000, 1, 1, 0, 0, 1)
 	while true do
 	Citizen.Wait(500)
-	local coords = GetEntityCoords(PlayerPedId)
-	local coords2 = GetEntityCoords(currentPetPed)
-	TaskGoToCoordAnyMeans(currentPetPed, coords, 1.0, 0, 0, 786603, 0xbf800000)
+	--local coords = GetEntityCoords(PlayerPedId)
+	--local coords2 = GetEntityCoords(currentPetPed)
+	--TaskGoToCoordAnyMeans(currentPetPed, coords, 1.0, 0, 0, 786603, 0xbf800000)
 	
 		if GetDistanceBetweenCoords(coords, coords2, true) <= 2.0 then
 		DetachEntity(currentPetPed)
@@ -778,7 +782,7 @@ AddEventHandler('rdn_companions:spawndog', function (dog,skin,isInShop,xp,canTra
 
 	if isInShop then
 		local x, y, z, w = table.unpack(Config.Shops[CurrentZoneActive].Spawndog)
-		spawnAnimal(model, player, x, y, z, w, skin, PlayerPedId(), false, true) 
+		spawnAnimal(model, player, x, y, z, w, skin, PlayerPedId(), false, true, xp) 
 	else
 		local EntityIsDead = false
 		if (currentPetPed ~= nil) then
