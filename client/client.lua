@@ -203,34 +203,41 @@ Citizen.CreateThread(function()
 		Citizen.Wait(1000)	
 		if not Config.RaiseAnimal then
 			if currentPetPed and not Retrieving and not isPetHungry and HuntMode then --Checking to see if your pet is active, not retriving and not hungry
-						local ped = PlayerPedId()
-						local ClosestPed = GetClosestAnimalPed(ped,Config.SearchRadius)
-						local pedType = GetPedType(ClosestPed)		  			
-						  if pedType == 28 and IsEntityDead(ClosestPed) and not RetrievedEntities[ClosestPed] then
-							local model = GetEntityModel(ClosestPed)
-							  for k,v in pairs(Config.Animals) do
-								  if model == k then
-
-								  RetrieveKill(ClosestPed)
-								  end
-							  end
+				local ped = PlayerPedId()
+				local ClosestPed = GetClosestAnimalPed(ped,Config.SearchRadius)
+				local pedType = GetPedType(ClosestPed)		  			
+				if pedType == 28 and IsEntityDead(ClosestPed) and not RetrievedEntities[ClosestPed] then
+				   local whoKilledPed = GetPedSourceOfDeath(ClosestPed)
+					if ped == whoKilledPed then -- Make sure the dead animal was killed by player or else it will try to steal other players hunts
+					local model = GetEntityModel(ClosestPed)
+					  for k,v in pairs(Config.Animals) do
+						  if model == k then												 
+						  RetrieveKill(ClosestPed)
 						  end
+					  end
+					else
+						RetrievedEntities[ClosestPed] = true --Even though it wasn't retrieved, I do this so it stops trying to check if it should retrieve this ped
+					end
+				 end
 			end	
 		else		
 			if currentPetPed and not Retrieving and petXP >= Config.FullGrownXp and not isPetHungry and HuntMode then --Checking to see if your pet is active, not retriving and not hungry
-						local ped = PlayerPedId()
-						local ClosestPed = GetClosestAnimalPed(ped,Config.SearchRadius)
-						local pedType = GetPedType(ClosestPed)		  			
-						  if pedType == 28 and IsEntityDead(ClosestPed) and not RetrievedEntities[ClosestPed] then
-							local model = GetEntityModel(ClosestPed)
-							  for k,v in pairs(Config.Animals) do
-								  if model == k then
-								  local whoKilledMe = GetPedSourceOfDeath(ClosestPed)
-								  print(whoKilledMe)
-								  RetrieveKill(ClosestPed)
-								  end
-							  end
+				local ped = PlayerPedId()
+				local ClosestPed = GetClosestAnimalPed(ped,Config.SearchRadius)
+				local pedType = GetPedType(ClosestPed)		  			
+				if pedType == 28 and IsEntityDead(ClosestPed) and not RetrievedEntities[ClosestPed] then
+				   local whoKilledPed = GetPedSourceOfDeath(ClosestPed)
+					if ped == whoKilledPed then -- Make sure the dead animal was killed by player or else it will try to steal other players hunts
+					local model = GetEntityModel(ClosestPed)
+					  for k,v in pairs(Config.Animals) do
+						  if model == k then												 
+						  RetrieveKill(ClosestPed)
 						  end
+					  end
+					else
+						RetrievedEntities[ClosestPed] = true --Even though it wasn't retrieved, I do this so it stops trying to check if it should retrieve this ped
+					end
+				 end
 			end				
 		end
 		
@@ -558,10 +565,10 @@ RegisterCommand("callpet", function(source, args, rawCommand) --  COMMAND
 end)
 
 function AttackTarget(targetentity)
-
-	--
+ local retval, group = AddRelationshipGroup("attackedPeds") --We need to make a new group so the pet doesn't go haywire on other peds in the default group
+	SetPedRelationshipGroupHash(targetentity,group) --Setting the attacked target to be in the new group
+	SetRelationshipBetweenGroups(5, GetPedRelationshipGroupHash(currentPetPed), GetPedRelationshipGroupHash(targetentity))	--Setting the relationship of the pet to target at 5 (hated)
 	TaskCombatPed(currentPetPed,targetentity,0,16)
-	
 end
 
 function TrackTarget(targetentity)
@@ -598,7 +605,8 @@ end
 
 -- | Spawn dog | --
 
-function setPetBehavior (petPed)
+function setPetBehavior(petPed)
+
 	SetRelationshipBetweenGroups(1, GetPedRelationshipGroupHash(petPed), GetHashKey('PLAYER'))
 	SetRelationshipBetweenGroups(1, GetPedRelationshipGroupHash(petPed), 143493179)
 	SetRelationshipBetweenGroups(1, GetPedRelationshipGroupHash(petPed), -2040077242)
@@ -635,6 +643,7 @@ function setPetBehavior (petPed)
 	SetRelationshipBetweenGroups(1, GetPedRelationshipGroupHash(petPed), -989642646)
 	SetRelationshipBetweenGroups(1, GetPedRelationshipGroupHash(petPed), 1986610512)
 	SetRelationshipBetweenGroups(1, GetPedRelationshipGroupHash(petPed), -1683752762)
+	
 end
 
 function followOwner(currentPetPed, PlayerPedId, isInShop)
@@ -692,7 +701,11 @@ function spawnAnimal (model, player, x, y, z, h, skin, PlayerPedId, isdead, issh
 			SetEntityInvincible(currentPetPed, true)
 		end
 		AddFollowPrompts(currentPetPed)
-
+		if Config.NoFear then
+				Citizen.InvokeNative(0x013A7BA5015C1372, currentPetPed, true)
+				Citizen.InvokeNative(0x3B005FF0538ED2A9, currentPetPed)
+				Citizen.InvokeNative(0xAEB97D84CDF3C00B, currentPetPed, false)
+		end
 		SetPetAttributes(currentPetPed)
 		setPetBehavior(currentPetPed)
 		SetPedAsGroupMember(currentPetPed, GetPedGroupIndex(PlayerPedId))
@@ -709,7 +722,7 @@ function spawnAnimal (model, player, x, y, z, h, skin, PlayerPedId, isdead, issh
 				SetPedScale(currentPetPed, 0.6)
 			end
 		else 
-			petXP = 200
+			petXP = Config.FullGrownXp
 			AddStayPrompts(currentPetPed)
 		end
 	
