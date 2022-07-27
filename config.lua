@@ -14,7 +14,7 @@ Config.TriggerKeys = {
     CallPet = 'U'
 }
 
---The attack command sets your animal to attack a target but some animals wont attack others due to in-game constraints (i.e dogs wont attack people, just growl and bark at them)
+--The attack command sets your animal to attack a target
 Config.AttackCommand = true -- Set true to be able to send your pet to attack a target you are locked on (holding right-click on them)
 
 --<<Only have one of these 3 be true or all 3 false if you want the attack prompt on all targets
@@ -32,7 +32,11 @@ Config.TrackkOnlyAnimals = false -- The track command works on animal types, not
 Config.TrackOnlyNPC = false -- If this is enabled, you can track NPC peds and animals but not people
 -->>
 
+
 Config.DefensiveMode = true --If set to true, pets will become hostile to anything you are in combat with
+
+
+Config.NoFear = true --Set this to true if you are using Bears/Wolves as pets so that your horses won't be in constant fear and wont get stuck on the eating dead body animation.
 
 
 Config.AnimalTrackingJobOnly = false -- If true only people with the jobs below can use the tracking option
