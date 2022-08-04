@@ -55,7 +55,7 @@ AddEventHandler('rdn_companions:feedPet', function(xp)
 		local ItemData = data.getItem(_src, Config.AnimalFood)
 		local amount = ItemData.ItemAmount
 		if amount >= 1 then
-			if newXp < Config.FullGrownXp then
+			if newXp <= Config.FullGrownXp then
 
 				ItemData.RemoveItem(1)
 
@@ -81,7 +81,7 @@ AddEventHandler('rdn_companions:feedPet', function(xp)
 		local newXp = currentXP + Config.XpPerFeed
 		local amount = VorpInv.getItemCount(_src, Config.AnimalFood)
 		if amount >= 1 then
-			if newXp < Config.FullGrownXp then
+			if newXp <= Config.FullGrownXp then
 
 				VorpInv.subItem(_src,Config.AnimalFood,1)
 
