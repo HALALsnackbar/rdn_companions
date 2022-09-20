@@ -122,17 +122,17 @@ AddEventHandler('rdn_companions:buydog', function (args)
 			if #result > 0 then 
 				local Parameters = { ['identifier'] = u_identifier, ['charidentifier'] = u_charid,  ['dog'] = _model, ['skin'] = skin , ['xp'] = 0 }
 			   MySQL.Sync.execute(" UPDATE companions SET dog = @dog, skin = @skin, xp = @xp WHERE identifier = @identifier AND charidentifier = @charidentifier", Parameters, function(r1)
+				end)
 					user.removeMoney(_price)
 					TriggerClientEvent('rdn_companions:spawndog', _src, _model, skin, true, 0,canTrack)
-					TriggerClientEvent( 'UI:DrawNotification', _src, _U('ReplacePet') )
-				end)
+					TriggerClientEvent( 'UI:DrawNotification', _src, _U('ReplacePet') )				
 			else
 				local Parameters = { ['identifier'] = u_identifier, ['charidentifier'] = u_charid,  ['dog'] = _model, ['skin'] = skin, ['xp'] = 0 }
 			   MySQL.Sync.execute("INSERT INTO companions ( `identifier`,`charidentifier`,`dog`,`skin`, `xp` ) VALUES ( @identifier,@charidentifier, @dog, @skin, @xp )", Parameters, function(r2)
+				end)
 					user.removeMoney(_price)
 					TriggerClientEvent('rdn_companions:spawndog', _src, _model, skin, true, 0,canTrack)
-					TriggerClientEvent( 'UI:DrawNotification', _src, _U('NewPet') )
-				end)
+					TriggerClientEvent( 'UI:DrawNotification', _src, _U('NewPet') )								
 			end
 		end)
 	end)
