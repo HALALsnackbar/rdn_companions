@@ -274,13 +274,7 @@ Citizen.CreateThread(function()
 					 TriggerEvent( 'UI:DrawNotification', _U('Hungry'))		
 					notifyHungry = true		
 				end
-			end
-			if recentlySpawned > 0 then
-				recentlySpawned = recentlySpawned - 1
-			end		
-			if recentlyCombat > 0 then
-				recentlyCombat = recentlyCombat - 1
-			end				
+			end			
 			
 			if currentPetPed and IsEntityDead(currentPetPed) then
 				recentlySpawned = Config.PetAttributes.DeathCooldown
@@ -290,6 +284,12 @@ Citizen.CreateThread(function()
 				currentPetPed = nil			
 			end
 		end	
+		if recentlySpawned > 0 then
+			recentlySpawned = recentlySpawned - 1
+		end		
+		if recentlyCombat > 0 then
+			recentlyCombat = recentlyCombat - 1
+		end				
 	end
 end)
 
@@ -588,7 +588,8 @@ function RetrieveKill(ClosestPed)
 	Retrieving = true
 	print('Retrieve Kill')
 	while true do
-	Citizen.Wait(250)
+	Citizen.Wait(2000)
+	TaskGoToCoordAnyMeans(currentPetPed, coords, 2.0, 0, 0, 786603, 0xbf800000)
 	local petCoords = GetEntityCoords(currentPetPed)
 	coords = GetEntityCoords(fetchedObj)
 		if GetDistanceBetweenCoords(coords, petCoords, true) <= 2.5 then
@@ -606,7 +607,7 @@ end
 -- | Spawn dog | --
 
 function setPetBehavior(petPed)
-
+	
 	SetRelationshipBetweenGroups(1, GetPedRelationshipGroupHash(petPed), GetHashKey('PLAYER'))
 	SetRelationshipBetweenGroups(1, GetPedRelationshipGroupHash(petPed), 143493179)
 	SetRelationshipBetweenGroups(1, GetPedRelationshipGroupHash(petPed), -2040077242)
@@ -665,18 +666,18 @@ local coords = GetEntityCoords(currentPetPed)
 	FreezeEntityPosition(currentPetPed,true)
 end
 
-function ReturnKillToPlayer(currentPetPed, PlayerPedId)
-
+function ReturnKillToPlayer(fetchedKill, PlayerPedId)
+	
 	local coords = GetEntityCoords(PlayerPedId)
 		TaskGoToCoordAnyMeans(currentPetPed, coords, 1.5, 0, 0, 786603, 0xbf800000)
 	while true do
-	Citizen.Wait(500)
+	Citizen.Wait(2000)
 	coords = GetEntityCoords(PlayerPedId)
 	local coords2 = GetEntityCoords(currentPetPed)
-	--TaskGoToCoordAnyMeans(currentPetPed, coords, 1.5, 0, 0, 786603, 0xbf800000) --this might have been causing the pet to freeze up by calling it so much
+	TaskGoToCoordAnyMeans(currentPetPed, coords, 1.5, 0, 0, 786603, 0xbf800000) --this might have been causing the pet to freeze up by calling it so much
 	
 		if GetDistanceBetweenCoords(coords, coords2, true) <= 2.0 then
-		DetachEntity(currentPetPed)
+		DetachEntity(fetchedObj)
 		Wait(100)
 		PlaceObjectOnGroundProperly(fetchedObj, true)
 		Retrieving = false
