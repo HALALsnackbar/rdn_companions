@@ -176,7 +176,11 @@ Citizen.CreateThread(function()
 
 
 		if Config.CallPetKey == true then
-			if IsControlJustReleased(0, keys[Config.TriggerKeys.CallPet]) then
+            local ped = PlayerPedId()
+            local isPlayerDead = IsPedDeadOrDying(ped)
+            local isPlayerCuffed = IsPedCuffed(ped)
+
+			if IsControlJustReleased(0, keys[Config.TriggerKeys.CallPet]) and not isPlayerDead and not isPlayerCuffed then
 				pressLeft = GetGameTimer()
 				pressTime = pressTime + 1
 			end
@@ -559,9 +563,12 @@ end)
 RegisterCommand("callpet", function(source, args, rawCommand) --  COMMAND
     local _source = source
     local ped = PlayerPedId()
+    local isPlayerDead = IsPedDeadOrDying(ped)
+    local isPlayerCuffed = IsPedCuffed(ped)
+
+    if isPlayerDead or isPlayerCuffed then return end
+
 	TriggerServerEvent('rdn_companions:loaddog')
-
-
 end)
 
 function AttackTarget(targetentity)
